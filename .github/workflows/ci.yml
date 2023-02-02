@@ -1,0 +1,53 @@
+name: CI (Test Suite)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ["3.8.16", "3.9.16", "3.10.9"]
+    steps:
+      - uses: actions/checkout@v3
+      #----------------------------------------------
+      #           install & configure poetry
+      #----------------------------------------------
+      - name: Install Poetry
+        run: |
+          pipx install poetry==1.1.13
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+          poetry config installer.parallel true
+      #----------------------------------------------
+      #               setup-python@v3
+      #----------------------------------------------
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
+      #----------------------------------------------
+      #             install dependencies
+      #----------------------------------------------
+      - name: Install dependencies
+        run: |
+          poetry env use ${{ matrix.python-version }}
+          poetry install
+      #----------------------------------------------
+      #              run test suite
+      #----------------------------------------------
+      - name: Run tests
+        run: |
+          poetry shell
+          python -V
+          pytest -n auto -vv
