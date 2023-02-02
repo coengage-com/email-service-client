@@ -24,7 +24,7 @@ jobs:
       #----------------------------------------------
       - name: Install Poetry
         run: |
-          pipx install poetry==1.1.13
+          pipx install poetry==1.2.0
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
           poetry config installer.parallel true
