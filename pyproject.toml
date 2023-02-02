@@ -8,12 +8,13 @@ packages = [{include = "email_service_client"}]
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 requests = "^2.28.2"
 python-dotenv = "^0.21.1"
-pytest = "^7.2.1"
 requests-toolbelt = "^0.10.1"
 
+[tool.poetry.dev.dependencies]
+pytest = "^7.2.1"
 
 [tool.poetry.group.cq.dependencies]
 black = "^22.12.0"
