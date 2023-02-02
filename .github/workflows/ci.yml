@@ -48,6 +48,5 @@ jobs:
       #----------------------------------------------
       - name: Run tests
         run: |
-          poetry shell
           python -V
           pytest -n auto -vv
