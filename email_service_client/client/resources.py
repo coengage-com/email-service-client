@@ -4,7 +4,7 @@ import requests  # type: ignore
 import requests_toolbelt  # type: ignore
 
 import settings
-from client.types import CreateEmailIdentityPayload, EmailIdentity
+from email_service_client.client.types import CreateEmailIdentityPayload, EmailIdentity
 
 API_BASE_URL = f"{settings.EMAIL_SERVICE_API_HOST}/api/v1"
 
@@ -34,4 +34,4 @@ class _EmailIdentity(APIResource):
             data=encoded_data,
             headers={"Content-Type": encoded_data.content_type},
         )
-        return self._session.post(f"{self.resource_url}").json()
+        return self._session.post(self.resource_url).json()

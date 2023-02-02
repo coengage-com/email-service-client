@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import settings
 
-API_HOST_URL = f"{settings.EMAIL_SERVICE_API_HOST}"
+API_HOST_URL = settings.EMAIL_SERVICE_API_HOST
 
 
 class ResourceTestCase(TestCase):

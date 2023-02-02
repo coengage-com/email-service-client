@@ -1,7 +1,7 @@
 import requests  # type: ignore
 from requests import auth
 
-from client.resources import _EmailIdentity
+from email_service_client.client.resources import _EmailIdentity
 
 
 class EmailServiceClient:

@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock
 
-from client import EmailServiceClient
+from email_service_client.client import EmailServiceClient
+from email_service_client.tests.unit_tests.base import ResourceTestCase
 from settings import EMAIL_SERVICE_API_HOST
-from tests.unit_tests.base import ResourceTestCase
 
 
 class EmailIdentityResourceTests(ResourceTestCase):
