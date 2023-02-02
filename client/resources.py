@@ -20,7 +20,6 @@ class _EmailIdentity(APIResource):
         self.resource_url = f"{API_BASE_URL}/email-identities"
 
     def list(self) -> list[EmailIdentity]:
-        print(requests.Session.get)
         return self._session.get(self.resource_url).json()
 
     def get(self, id) -> EmailIdentity:
@@ -34,8 +33,3 @@ class _EmailIdentity(APIResource):
             headers={"Content-Type": encoded_data.content_type},
         )
         return self._session.post(f"{self.resource_url}").json()
-
-
-class _EmailSource(APIResource):
-    uuid: str
-    name: str
