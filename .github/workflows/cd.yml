@@ -16,7 +16,7 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version: ["3.10.4"]
+        python-version: ["3.8.16", "3.9.16", "3.10.9']
     steps:
       - uses: actions/checkout@v3
       #----------------------------------------------
@@ -50,50 +50,4 @@ jobs:
         run: |
           poetry shell
           python -V
-          make settings env=ci
-          make ci-secrets
           pytest -n auto -vv
-      - name: Set author to slack id mapping
-        uses: kanga333/variable-mapper@master
-        if: always()
-        with:
-          key: "${{ github.actor }}"
-          map: |
-            {
-              "mridula-plivo": {
-                "slack_member_id": "U02Q519GH60"
-              },
-              "amalshaji-plivo": {
-                "slack_member_id": "U02L11HCV6F"
-              },
-              "sushant-plivo": {
-                "slack_member_id": "U02QF8RQY0G"
-              },
-              "lalith-plivo": {
-                "slack_member_id": "U02QAGRV6GH"
-              },
-              "gautham-plivo": {
-                "slack_member_id": "U02KLGYQP2B"
-              }
-            }
-      - name: Send slack notification on PR
-        if: always() && github.event_name == 'pull_request'
-        uses: ravsamhq/notify-slack-action@v1
-        with:
-          status: ${{ job.status }}
-          message_format: "{workflow} {status_message} on PR <https://github.com/{repo}/pull/${{ github.event.pull_request.number }}|#${{ github.event.pull_request.number }} ${{  github.event.pull_request.title }}>. Commit <{commit_url}|{commit_sha}>."
-          notification_title: "{emoji} {workflow} {status_message}"
-          mention_users: ${{ env.slack_member_id }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_ENGG }}
-      - name: Send slack notification on merge
-        if: always() && github.event_name == 'push'
-        uses: ravsamhq/notify-slack-action@v1
-        with:
-          status: ${{ job.status }}
-          notify_when: success,failure
-          message_format: "{workflow} {status_message} on merge to main. Commit <{commit_url}|{commit_sha}>."
-          notification_title: "{emoji}{emoji} {workflow} {status_message}"
-          mention_users: ${{ env.slack_member_id }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_ENGG }}
