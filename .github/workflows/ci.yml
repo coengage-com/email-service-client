@@ -48,5 +48,6 @@ jobs:
       #----------------------------------------------
       - name: Run tests
         run: |
+          . $(poetry env info --path)/bin/activate
           python -V
           pytest -n auto -vv
