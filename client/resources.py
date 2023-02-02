@@ -1,3 +1,5 @@
+from typing import List
+
 import requests  # type: ignore
 import requests_toolbelt  # type: ignore
 
@@ -19,7 +21,7 @@ class _EmailIdentity(APIResource):
         super().__init__(session)
         self.resource_url = f"{API_BASE_URL}/email-identities"
 
-    def list(self) -> list[EmailIdentity]:
+    def list(self) -> List[EmailIdentity]:
         return self._session.get(self.resource_url).json()
 
     def get(self, id) -> EmailIdentity:
