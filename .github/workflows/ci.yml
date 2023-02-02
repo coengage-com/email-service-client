@@ -1,4 +1,4 @@
-name: CD
+name: CI (Test Suite)
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version: ["3.8.16", "3.9.16", "3.10.9']
+        python-version: ["3.8.16", "3.9.16", "3.10.9"]
     steps:
       - uses: actions/checkout@v3
       #----------------------------------------------
