@@ -3,10 +3,10 @@ from typing import List
 import requests  # type: ignore
 import requests_toolbelt  # type: ignore
 
-import settings
+from email_service_client.client.constants import HOST
 from email_service_client.client.types import CreateEmailIdentityPayload, EmailIdentity
 
-API_BASE_URL = f"{settings.EMAIL_SERVICE_API_HOST}/api/v1"
+API_BASE_URL = f"{HOST}/api/v1"
 
 
 class APIResource:

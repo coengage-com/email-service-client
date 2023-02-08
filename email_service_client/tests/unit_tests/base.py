@@ -1,10 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-import settings
-
-API_HOST_URL = settings.EMAIL_SERVICE_API_HOST
-
 
 class ResourceTestCase(TestCase):
     def setUp(self) -> None:

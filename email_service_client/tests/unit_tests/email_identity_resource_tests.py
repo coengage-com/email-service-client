@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock
 
 from email_service_client.client import EmailServiceClient
+from email_service_client.client.constants import HOST
 from email_service_client.tests.unit_tests.base import ResourceTestCase
-from settings import EMAIL_SERVICE_API_HOST
 
 
 class EmailIdentityResourceTests(ResourceTestCase):
@@ -14,9 +14,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
         self.requests_get_patch.return_value = dummy_list
         email_service_client = EmailServiceClient(username="dummy", password="dummy")
         self.assertEqual(email_service_client.EmailIdentity.list(), dummy_list.json())
-        self.requests_get_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities"
-        )
+        self.requests_get_patch.assert_called_with(f"{HOST}/api/v1/email-identities")
 
     def test_get_email_identity(self):
 
@@ -24,9 +22,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
         self.requests_get_patch.return_value = dummy_list
         email_service_client = EmailServiceClient(username="dummy", password="dummy")
         self.assertEqual(email_service_client.EmailIdentity.get(23434), dummy_list.json())
-        self.requests_get_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/23434"
-        )
+        self.requests_get_patch.assert_called_with(f"{HOST}/api/v1/email-identities/23434")
 
     def test_create_email_identity(self):
 
@@ -37,9 +33,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
             email_service_client.EmailIdentity.create(data={"identity": "domain.com"}),
             dummy_response.json(),
         )
-        self.requests_post_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities"
-        )
+        self.requests_post_patch.assert_called_with(f"{HOST}/api/v1/email-identities")
 
     def test_configure_sending_email_identity(self):
         dummy_response = MagicMock(status_code=200)
@@ -50,7 +44,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
             dummy_response.json(),
         )
         self.requests_post_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/19/configure/sending"
+            f"{HOST}/api/v1/email-identities/19/configure/sending"
         )
 
     def test_deconfigure_sending_email_identity(self):
@@ -62,7 +56,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
             dummy_response.json(),
         )
         self.requests_post_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/19/deconfigure/sending"
+            f"{HOST}/api/v1/email-identities/19/deconfigure/sending"
         )
 
     def test_delete_sending_email_identity(self):
@@ -73,9 +67,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
             email_service_client.EmailIdentity.delete(id=19),
             dummy_response.json(),
         )
-        self.requests_post_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/19/delete"
-        )
+        self.requests_post_patch.assert_called_with(f"{HOST}/api/v1/email-identities/19/delete")
 
     def test_get_sending_dns_records(self):
         dummy_response = MagicMock(status_code=200)
@@ -86,7 +78,7 @@ class EmailIdentityResourceTests(ResourceTestCase):
             dummy_response.json(),
         )
         self.requests_get_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/19/dns-records/sending"
+            f"{HOST}/api/v1/email-identities/19/dns-records/sending"
         )
 
     def test_get_sending_verification_status(self):
@@ -98,5 +90,5 @@ class EmailIdentityResourceTests(ResourceTestCase):
             dummy_response.json(),
         )
         self.requests_get_patch.assert_called_with(
-            f"{EMAIL_SERVICE_API_HOST}/api/v1/email-identities/19/verification-status/sending"
+            f"{HOST}/api/v1/email-identities/19/verification-status/sending"
         )
