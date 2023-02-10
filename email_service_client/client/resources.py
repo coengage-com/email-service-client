@@ -31,12 +31,11 @@ class _EmailIdentity(APIResource):
     def create(self, data: CreateEmailIdentityPayload) -> dict:
 
         encoded_data = requests_toolbelt.MultipartEncoder(fields=data)
-        self._session.post(
+        return self._session.post(
             self.resource_url,
             data=encoded_data,
             headers={"Content-Type": encoded_data.content_type},
-        )
-        return self._session.post(self.resource_url).json()
+        ).json()
 
     def configure_sending(self, id: int) -> dict:
         return self._session.post(f"{self.resource_url}/{id}/configure/sending").json()
