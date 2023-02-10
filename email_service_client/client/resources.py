@@ -12,7 +12,7 @@ API_BASE_URL = f"{HOST}/api/v1"
 class APIResource:
     def __init__(self, session: requests.Session) -> None:
         self._session = session
-        # self._session.hooks = {"response": lambda r, *args, **kwargs: r.raise_for_status()}
+        self._session.hooks = {"response": lambda r, *args, **kwargs: r.raise_for_status()}
 
 
 class _EmailIdentity(APIResource):
