@@ -4,7 +4,12 @@ import requests  # type: ignore
 import requests_toolbelt  # type: ignore
 
 from email_service_client.client.constants import HOST
-from email_service_client.client.types import CreateEmailIdentityPayload, EmailIdentity
+from email_service_client.client.types import (
+    CreateEmailIdentityPayload,
+    EmailIdentity,
+    OutgoingEmailRequestPayload,
+    OutgoingEmailRequestResponse,
+)
 
 API_BASE_URL = f"{HOST}/api/v1"
 
@@ -51,3 +56,30 @@ class _EmailIdentity(APIResource):
 
     def get_sending_verification_status(self, id: int) -> dict:
         return self._session.get(f"{self.resource_url}/{id}/verification-status/sending").json()
+
+
+class _OutgoingEmailRequest(APIResource):
+
+    resource_url: str
+
+    def __init__(self, session: requests.Session) -> None:
+        super().__init__(session)
+        self.resource_url = f"{API_BASE_URL}/outgoing-email-requests"
+
+    def create(self, data: OutgoingEmailRequestPayload) -> List[OutgoingEmailRequestResponse]:
+        form_data = [
+            ("from_address", data["from_address"]),
+            *[("recipients", recipient) for recipient in data["recipients"]],
+            *[("cc", cc) for cc in data["cc"]],
+            *[("bcc", bcc) for bcc in data["bcc"]],
+            *[("reply_to", reply_to) for reply_to in data["reply_to"]],
+            ("subject", data["subject"]),
+            ("body", data["body"]),
+            *[("attachments", attachment) for attachment in data["attachments"]],
+        ]
+        encoded_data = requests_toolbelt.MultipartEncoder(fields=form_data)
+        return self._session.post(
+            self.resource_url,
+            data=encoded_data,
+            headers={"Content-Type": encoded_data.content_type},
+        ).json()
