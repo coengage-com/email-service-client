@@ -6,9 +6,6 @@ from email_service_client.tests.unit_tests.base import ResourceTestCase
 
 
 class EmailIdentityResourceTests(ResourceTestCase):
-    def setUp(self) -> None:
-        return super().setUp()
-
     def test_list_email_identities(self):
         dummy_list = MagicMock(status_code=200)
         self.requests_get_patch.return_value = dummy_list
@@ -97,4 +94,46 @@ class EmailIdentityResourceTests(ResourceTestCase):
         )
         self.requests_get_patch.assert_called_with(
             f"{HOST}/api/v1/email-identities/19/verification-status/sending"
+        )
+
+
+class OutgoingEmailRequestResourceTests(ResourceTestCase):
+    @patch("requests_toolbelt.MultipartEncoder")
+    def test_create(self, multipart_encoder_patch):
+
+        dummy_response = MagicMock(status_code=200)
+        self.requests_post_patch.return_value = dummy_response
+        email_service_client = EmailServiceClient(username="dummy", password="dummy")
+        self.assertEqual(
+            email_service_client.OutgoingEmailRequest.create(
+                data={
+                    "from_name": "John",
+                    "from_address": "john@coengagage.com",
+                    "recipients": [("jane@plivo.com")],
+                    "subject": "test",
+                    "body": "hello!",
+                    "amp": "",
+                    "cc": [],
+                    "bcc": [],
+                    "reply_to": ["mridula@coengagedev.com"],
+                    "html": "",
+                    "source_uuid": None,
+                    "attachments": [],
+                }
+            ),
+            dummy_response.json(),
+        )
+        multipart_encoder_patch.assert_called_with(
+            fields=[
+                ("from_address", "john@coengagage.com"),
+                ("recipients", "jane@plivo.com"),
+                ("reply_to", "mridula@coengagedev.com"),
+                ("subject", "test"),
+                ("body", "hello!"),
+            ]
+        )
+        self.requests_post_patch.assert_called_with(
+            f"{HOST}/api/v1/outgoing-email-requests",
+            data=multipart_encoder_patch(),
+            headers={"Content-Type": multipart_encoder_patch().content_type},
         )
