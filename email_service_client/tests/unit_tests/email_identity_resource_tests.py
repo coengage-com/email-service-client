@@ -130,6 +130,8 @@ class OutgoingEmailRequestResourceTests(ResourceTestCase):
                 ("reply_to", "mridula@coengagedev.com"),
                 ("subject", "test"),
                 ("body", "hello!"),
+                ("html", ""),
+                ("amp", ""),
             ]
         )
         self.requests_post_patch.assert_called_with(
