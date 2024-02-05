@@ -75,6 +75,8 @@ class _OutgoingEmailRequest(APIResource):
             *[("reply_to", reply_to) for reply_to in data["reply_to"]],
             ("subject", data["subject"]),
             ("body", data["body"]),
+            ("html", data["html"]),
+            ("amp", data["amp"]),
             *[("attachments", attachment) for attachment in data["attachments"]],
         ]
         encoded_data = requests_toolbelt.MultipartEncoder(fields=form_data)
