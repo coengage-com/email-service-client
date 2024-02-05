@@ -76,9 +76,10 @@ class _OutgoingEmailRequest(APIResource):
             ("subject", data["subject"]),
             ("body", data["body"]),
             ("html", data["html"]),
-            ("amp", data["amp"]),
             *[("attachments", attachment) for attachment in data["attachments"]],
         ]
+        if "amp" in data:
+            form_data.append(("amp", data["amp"]))
         encoded_data = requests_toolbelt.MultipartEncoder(fields=form_data)
         return self._session.post(
             self.resource_url,
