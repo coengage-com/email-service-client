@@ -109,7 +109,7 @@ class OutgoingEmailRequestResourceTests(ResourceTestCase):
                 data={
                     "from_name": "John",
                     "from_address": "john@coengagage.com",
-                    "recipients": [("jane@plivo.com")],
+                    "recipients": ["jane@plivo.com", "kane@plivo.com"],
                     "subject": "test",
                     "body": "hello!",
                     "amp": "",
@@ -127,6 +127,7 @@ class OutgoingEmailRequestResourceTests(ResourceTestCase):
             fields=[
                 ("from_address", "john@coengagage.com"),
                 ("recipients", "jane@plivo.com"),
+                ("recipients", "kane@plivo.com"),
                 ("reply_to", "mridula@coengagedev.com"),
                 ("subject", "test"),
                 ("body", "hello!"),
