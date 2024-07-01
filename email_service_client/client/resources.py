@@ -68,6 +68,7 @@ class _OutgoingEmailRequest(APIResource):
 
     def create(self, data: OutgoingEmailRequestPayload) -> List[OutgoingEmailRequestResponse]:
         form_data = [
+            ("from_name", data["from_name"]),
             ("from_address", data["from_address"]),
             *[("recipients", recipient) for recipient in data["recipients"]],
             *[("cc", cc) for cc in data["cc"]],
