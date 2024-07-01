@@ -125,6 +125,7 @@ class OutgoingEmailRequestResourceTests(ResourceTestCase):
         )
         multipart_encoder_patch.assert_called_with(
             fields=[
+                ("from_name", "John"),
                 ("from_address", "john@coengagage.com"),
                 ("recipients", "jane@plivo.com"),
                 ("reply_to", "mridula@coengagedev.com"),
